@@ -5,21 +5,25 @@ import '../less/global.less';
 
 export default class Users extends React.Component {
   state = {
-    users: []
+    users: [],
+    loading:true
   }
 
   componentDidMount() {
     axios.get(`${process.env.REACT_APP_PUBLIC_API_URL}/users`)
       .then(res => {
         const users = res.data;
-        this.setState({users});
+        this.setState({users,loading:false});
       });
   }
 
   render() {
+    if(this.state.loading==true && !this.state.users.length){
+      return(<div className="loading"><img src="/spinner.gif" alt="logo" /></div>)
+    }
     return (
       <div>
-        <h1>Users</h1>
+        <h1>Users</h1>  
         <table>
           <thead>
             <tr><th>ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>

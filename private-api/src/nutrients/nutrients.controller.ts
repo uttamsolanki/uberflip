@@ -32,11 +32,12 @@ export class NutrientsController {
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id') id: number,
     @Body() updateNutrientDto: UpdateNutrientDto,
   ) {
-    return this.nutrientsService.update(id, updateNutrientDto);
+    this.nutrientsService.update(id, updateNutrientDto);
+    return this.nutrientsService.findOne(id);
   }
 
   @Delete(':id')

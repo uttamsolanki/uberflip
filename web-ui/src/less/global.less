@@ -29,9 +29,16 @@ body {
         border: 1px solid #383838;
         padding: 10px;
       }
+      &:nth-child(even) {
+        background-color: #ffc8d3;
+      }
+      &:nth-child(odd) {
+        background-color: #d9dbff;
+      }
       th {
         border: 1px solid #383838;
         padding: 5px 10px;
+        background-color: white;
       }
     }
   }
@@ -43,5 +50,15 @@ body {
   input {
     font-size: 11pt;
     padding: 5px;
+  }
+
+  .loading{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    margin: -145px 0px 0px -145px;
   }
 }

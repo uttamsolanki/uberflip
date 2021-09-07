@@ -9,7 +9,9 @@ export default class Users extends React.Component {
 
   state = {
     user: {},
-    userFoods: []
+    userFoods: [],
+    disabled : false,
+    loading:false
   }
 
   async addFood(foodId) {
@@ -45,18 +47,24 @@ export default class Users extends React.Component {
   }
 
   async removeFood(foodId) {
+    this.setState({
+      disabled:true
+    })
     await axios.delete(`${process.env.REACT_APP_PUBLIC_API_URL}/users/${this.props.match.params.userId}/foods/${foodId}`)
     
     const userFoods = this.state.userFoods.filter(userFood => {
       return userFood.foodId !== foodId;
     });
 
-    this.setState({userFoods});
+    this.setState({userFoods,disabled:false});
   }
 
   componentDidMount() {
+    this.setState({
+      loading: true
+    });
     axios.get(`${process.env.REACT_APP_PUBLIC_API_URL}/users/${this.props.match.params.userId}`).then((response) => {
-      this.setState({user: response.data});
+      this.setState({user: response.data,loading:false});
     })
     
     axios.get(`${process.env.REACT_APP_PUBLIC_API_URL}/users/${this.props.match.params.userId}/foods`).then((response) => {
@@ -65,6 +73,9 @@ export default class Users extends React.Component {
   }
 
   render() {
+    if(this.state.loading==false && this.state.user.statusCode && this.state.user.statusCode === 404){
+      return (<div><h1>User information</h1><p>{this.state.user.message}</p></div>)
+    }
     return (
       <div>
         <h1>User information</h1>
@@ -95,7 +106,11 @@ export default class Users extends React.Component {
                 <td>{userFood.food.description}</td>
                 <td>{userFood.food.publicationDate}</td>
                 <td>{userFood.servingsPerWeek ?? 0}</td>
-                <td><button onClick={() => this.removeFood(userFood.food.id)}>Remove</button></td>
+                <td>
+                  <button onClick={() => this.removeFood(userFood.food.id)} disabled={this.state.disabled}>
+                    Remove
+                  </button>
+                </td>
               </tr>)}
           </tbody>
         </table>
