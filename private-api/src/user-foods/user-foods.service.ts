@@ -21,7 +21,7 @@ export class UserFoodsService {
   }
 
   findFood(userId: number, foodId: number) {
-    return this.userFoodsRepository.findOne({
+    return this.userFoodsRepository.findOneOrFail({
       relations: ['food'],
       where: { userId, foodId },
     });

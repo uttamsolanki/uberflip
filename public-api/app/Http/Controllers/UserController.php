@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
-
 class UserController extends Controller
 {
     private $privateApiUrl;
@@ -32,6 +31,10 @@ class UserController extends Controller
     public function show(int $userId)
     {
         $response = Http::get("{$this->privateApiUrl}/users/{$userId}");
+        return $response->json();
+    }
+    public function mostConsumedNutrient(int $userId){
+        $response = Http::get("{$this->privateApiUrl}/users/{$userId}/reports/most-consumed-nutrient");
         return $response->json();
     }
 }

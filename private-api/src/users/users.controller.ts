@@ -45,4 +45,9 @@ export class UsersController {
   async remove(@Param('id') id: number) {
     await this.usersService.remove(id);
   }
+
+  @Get(':id/reports/most-consumed-nutrient')
+  mostConsumedNutrient(@Param('id') id: number) {
+    return this.usersService.mostConsumedNutrient(id);
+  }
 }
